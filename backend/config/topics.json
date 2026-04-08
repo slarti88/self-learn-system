@@ -1,0 +1,118 @@
+{
+  "subjects": [
+    {
+      "id": "economics",
+      "name": "Economics",
+      "description": "Core economic concepts and theory",
+      "topics": [
+        {
+          "id": "scarcity",
+          "name": "Scarcity, Choice, and Opportunity Cost",
+          "description": "Why economics exists: limited resources, trade-offs, incentives, marginal thinking."
+        },
+        {
+          "id": "supply_demand",
+          "name": "Supply, Demand, and Market Equilibrium",
+          "description": "How prices are determined through supply and demand, including elasticity and market adjustments."
+        },
+        {
+          "id": "consumer_behavior",
+          "name": "Consumer Behavior",
+          "description": "How individuals make choices based on preferences, utility, and budget constraints."
+        },
+        {
+          "id": "firm_behavior",
+          "name": "Firm Behavior and Production",
+          "description": "How firms produce goods, manage costs, and maximize profits."
+        },
+        {
+          "id": "market_structures",
+          "name": "Market Structures",
+          "description": "Different types of markets and how competition and pricing power vary across them."
+        },
+        {
+          "id": "market_failures",
+          "name": "Market Failures and Externalities",
+          "description": "When markets fail to allocate resources efficiently and the role of government intervention."
+        },
+        {
+          "id": "game_theory",
+          "name": "Game Theory and Strategic Interaction",
+          "description": "How agents make decisions in strategic settings involving competition and cooperation."
+        },
+        {
+          "id": "macroeconomic_foundations",
+          "name": "Macroeconomic Foundations",
+          "description": "Understanding aggregate economic indicators like GDP, inflation, and unemployment."
+        },
+        {
+          "id": "money_banking",
+          "name": "Money, Banking, and Monetary Policy",
+          "description": "How money systems work and how central banks influence the economy."
+        },
+        {
+          "id": "fiscal_growth_trade",
+          "name": "Fiscal Policy, Growth, and International Economics",
+          "description": "Government spending, taxation, economic growth, and global trade dynamics."
+        }
+      ]
+    },
+    {
+      "id":"japanese-1",
+      "name":"Japanese 1",
+      "description": "Basic japanese to get to intermediate level",
+      "topics":[
+        {
+          "id": "writing_system",
+          "name": "Hiragana, Katakana, and Basic Kanji",
+          "description": "Learn the Japanese writing systems and how sounds map to characters."
+        },
+        {
+          "id": "basic_pronunciation",
+          "name": "Pronunciation and Phonetics",
+          "description": "Sound patterns, pitch accent basics, and correct reading of words."
+        },
+        {
+          "id": "basic_sentence_structure",
+          "name": "Basic Sentence Structure",
+          "description": "Understanding SOV order, particles (は, が, を, に), and simple sentence formation."
+        },
+        {
+          "id": "core_vocabulary",
+          "name": "Core Vocabulary",
+          "description": "Essential everyday words for survival conversation and comprehension."
+        },
+        {
+          "id": "verb_and_adjective_forms",
+          "name": "Verb and Adjective Conjugation",
+          "description": "Present, past, negative forms, and polite vs casual speech."
+        },
+        {
+          "id": "particles_deep_dive",
+          "name": "Particles in Depth",
+          "description": "Nuanced usage of particles like は vs が, に vs で, and more."
+        },
+        {
+          "id": "complex_sentences",
+          "name": "Complex Sentence Structures",
+          "description": "Connecting ideas using て-form, clauses, and relative sentences."
+        },
+        {
+          "id": "listening_and_speaking",
+          "name": "Listening and Speaking Skills",
+          "description": "Understanding spoken Japanese and forming natural responses."
+        },
+        {
+          "id": "kanji_expansion",
+          "name": "Kanji and Reading Comprehension",
+          "description": "Learning common kanji and improving reading ability."
+        },
+        {
+          "id": "intermediate_expression",
+          "name": "Intermediate Grammar and Expression",
+          "description": "Nuanced expressions, casual vs formal tone, and real-world usage."
+        }
+      ]
+    }
+  ]
+}

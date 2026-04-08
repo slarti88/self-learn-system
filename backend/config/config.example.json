@@ -1,0 +1,23 @@
+{
+  "provider": "google",
+  "openai": {
+    "apiKey": "YOUR_OPENAI_API_KEY",
+    "model": "gpt-4o"
+  },
+  "google": {
+    "apiKey": "YOUR_GOOGLE_GEMINI_API_KEY",
+    "model": "gemini-3-flash-preview"
+  },
+  "session": {
+    "questionsPerSession": 5,
+    "cooldownMinutes": 5
+  },
+  "proficiency": {
+    "beginner":     { "min": 0,   "max": 9   },
+    "novice":       { "min": 10,  "max": 29  },
+    "rookie":       { "min": 30,  "max": 49  },
+    "intermediate": { "min": 50,  "max": 74  },
+    "master":       { "min": 75,  "max": 119 },
+    "expert":       { "min": 120, "max": null }
+  }
+}
