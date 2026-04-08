@@ -14,6 +14,23 @@ function getTopic(subject, topicId) {
   return subject.topics.find(t => t.id === topicId);
 }
 
+function calculateSubtopicCompletion(correct) {
+  const expertMin = config.proficiency.expert.min;
+  return Math.min(correct / expertMin, 1) * 100;
+}
+
+function calculateTopicCompletion(subjectId, topicId) {
+  const subtopics = storage.read(`subtopics/${subjectId}/${topicId}.json`);
+  if (!subtopics || subtopics.length === 0) return 0;
+  const allProgress = storage.read('progress/user_progress.json') || {};
+  const subjectProgress = allProgress[subjectId] || {};
+  const total = subtopics.reduce((sum, sub) => {
+    const entry = subjectProgress[sub.id] || { correct: 0 };
+    return sum + calculateSubtopicCompletion(entry.correct);
+  }, 0);
+  return total / subtopics.length;
+}
+
 // List all subjects (without topics array)
 router.get('/', (req, res) => {
   const subjects = topicsConfig.subjects.map(({ id, name, description }) => ({ id, name, description }));
@@ -106,6 +123,26 @@ router.get('/:subjectId/subtopics/:topicId/:subtopicId/questions', async (req, r
   }
 });
 
+// Get topic completion percentage
+router.get('/:subjectId/topics/:topicId/completion', (req, res) => {
+  const { subjectId, topicId } = req.params;
+  const subject = getSubject(subjectId);
+  if (!subject) return res.status(404).json({ error: 'Subject not found' });
+  const topic = getTopic(subject, topicId);
+  if (!topic) return res.status(404).json({ error: 'Topic not found' });
+  res.json({ completion: Math.round(calculateTopicCompletion(subjectId, topicId)) });
+});
+
+// Get subject completion percentage
+router.get('/:subjectId/completion', (req, res) => {
+  const { subjectId } = req.params;
+  const subject = getSubject(subjectId);
+  if (!subject) return res.status(404).json({ error: 'Subject not found' });
+  if (!subject.topics || subject.topics.length === 0) return res.json({ completion: 0 });
+  const total = subject.topics.reduce((sum, topic) => sum + calculateTopicCompletion(subjectId, topic.id), 0);
+  res.json({ completion: Math.round(total / subject.topics.length) });
+});
+
 // Get progress for a subtopic within a subject
 router.get('/:subjectId/progress/:subtopicId', (req, res) => {
   const { subjectId, subtopicId } = req.params;
@@ -113,7 +150,8 @@ router.get('/:subjectId/progress/:subtopicId', (req, res) => {
   const subjectProgress = allProgress[subjectId] || {};
   const entry = subjectProgress[subtopicId] || { correct: 0, wrong: 0 };
   const level = proficiency.getLevel(entry.correct);
-  res.json({ ...entry, level });
+  const completion = Math.round(calculateSubtopicCompletion(entry.correct));
+  res.json({ ...entry, level, completion });
 });
 
 // Submit quiz result for a subtopic within a subject

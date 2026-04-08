@@ -133,6 +133,32 @@ body {
   letter-spacing: 0.4px;
 }
 
+/* ── Card Completion Bar ──────────────────────────────────── */
+.card-completion {
+  margin-top: 0.75rem;
+}
+
+.card-completion-bar {
+  height: 4px;
+  background: #e2e8f0;
+  border-radius: 2px;
+  overflow: hidden;
+  margin-bottom: 0.3rem;
+}
+
+.card-completion-fill {
+  height: 100%;
+  background: #10b981;
+  border-radius: 2px;
+  transition: width 0.3s ease;
+}
+
+.card-completion-text {
+  font-size: 0.75rem;
+  color: #94a3b8;
+  font-weight: 500;
+}
+
 /* ── Detail Screen ────────────────────────────────────────── */
 .detail-header {
   display: flex;
@@ -207,9 +233,6 @@ body {
 .btn-secondary:hover { background: #059669; }
 
 .btn-disabled  { background: #cbd5e1; color: #94a3b8; cursor: not-allowed; }
-
-.quiz-btn-wrapper { display: flex; flex-direction: column; gap: 0.3rem; }
-.cooldown-hint { font-size: 0.8rem; color: #f59e0b; font-weight: 500; }
 
 /* ── Content View ─────────────────────────────────────────── */
 .content-view {
@@ -341,31 +364,6 @@ body {
 .badge-row { display: flex; align-items: center; gap: 0.75rem; }
 
 .results-screen .action-buttons { justify-content: center; }
-
-/* ── Cooldown Screen ──────────────────────────────────────── */
-.cooldown-screen { text-align: center; }
-
-.cooldown-content {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 1rem;
-  margin-top: 2rem;
-}
-
-.cooldown-icon { font-size: 3rem; }
-
-.cooldown-content h2 { font-size: 1.6rem; }
-.cooldown-content p  { color: #64748b; max-width: 360px; }
-
-.cooldown-timer {
-  font-size: 4rem;
-  font-weight: 700;
-  color: #1e3a5f;
-  letter-spacing: 2px;
-  font-variant-numeric: tabular-nums;
-  margin: 0.5rem 0;
-}
 
 /* ── Loading & Error ──────────────────────────────────────── */
 .loading {

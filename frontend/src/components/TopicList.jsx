@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import { useNavigate, useParams, useLocation } from 'react-router-dom';
 import { api } from '../services/api';
 import BackButton from './BackButton';
+import CompletionBar from './CompletionBar';
 
 export default function TopicList() {
   const { subjectId } = useParams();
@@ -10,12 +11,27 @@ export default function TopicList() {
   const subject = location.state?.subject;
 
   const [topics, setTopics] = useState([]);
+  const [completions, setCompletions] = useState({});
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
   useEffect(() => {
     api.getTopics(subjectId)
-      .then(setTopics)
+      .then(async (tops) => {
+        setTopics(tops);
+        const compMap = {};
+        await Promise.all(
+          tops.map(async (t) => {
+            try {
+              const { completion } = await api.getTopicCompletion(subjectId, t.id);
+              compMap[t.id] = completion;
+            } catch {
+              compMap[t.id] = 0;
+            }
+          })
+        );
+        setCompletions(compMap);
+      })
       .catch(e => setError(e.message))
       .finally(() => setLoading(false));
   }, [subjectId]);
@@ -37,6 +53,7 @@ export default function TopicList() {
           >
             <h3>{topic.name}</h3>
             <p>{topic.description}</p>
+            <CompletionBar completion={completions[topic.id] ?? 0} />
           </div>
         ))}
       </div>

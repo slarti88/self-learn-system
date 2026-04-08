@@ -1,42 +1,35 @@
-import { useEffect, useState } from 'react';
-import { useParams, useLocation, useNavigate } from 'react-router-dom';
+import { useEffect, useRef, useState } from 'react';
+import { useParams, useLocation } from 'react-router-dom';
 import { api } from '../services/api';
 import BackButton from './BackButton';
 import QuizQuestion from './QuizQuestion';
 import QuizResults from './QuizResults';
-import CooldownScreen from './CooldownScreen';
 
 export default function Quiz() {
   const { subjectId, topicId, subtopicId } = useParams();
   const location = useLocation();
-  const navigate = useNavigate();
   const { subject, topic, subtopic } = location.state || {};
 
-  const [phase, setPhase] = useState('loading'); // loading | cooldown | quiz | results | error
+  const [phase, setPhase] = useState('loading'); // loading | quiz | results | error
   const [questions, setQuestions] = useState([]);
   const [currentIdx, setCurrentIdx] = useState(0);
   const [answers, setAnswers] = useState([]); // { selected, correct }[]
-  const [sessionData, setSessionData] = useState(null);
   const [error, setError] = useState(null);
+  const fetchedRef = useRef(false);
 
   useEffect(() => {
-    async function init() {
-      try {
-        const session = await api.getSession();
-        if (session.active) {
-          setSessionData(session);
-          setPhase('cooldown');
-          return;
-        }
-        const qs = await api.getQuestions(subjectId, topicId, subtopicId);
+    if (fetchedRef.current) return;
+    fetchedRef.current = true;
+
+    api.getQuestions(subjectId, topicId, subtopicId)
+      .then(qs => {
         setQuestions(qs);
         setPhase('quiz');
-      } catch (e) {
+      })
+      .catch(e => {
         setError(e.message);
         setPhase('error');
-      }
-    }
-    init();
+      });
   }, [subjectId, topicId, subtopicId]);
 
   function handleAnswer(selectedIndex) {
@@ -52,10 +45,7 @@ export default function Quiz() {
       const totalCorrect = answers.filter(a => a.correct).length;
       const totalWrong = answers.filter(a => !a.correct).length;
       try {
-        await Promise.all([
-          api.submitProgress(subjectId, subtopicId, totalCorrect, totalWrong),
-          api.startSession()
-        ]);
+        await api.submitProgress(subjectId, subtopicId, totalCorrect, totalWrong);
       } catch (e) {
         console.error('Error submitting results:', e);
       }
@@ -78,15 +68,6 @@ export default function Quiz() {
       <BackButton />
       <div className="error-msg">Error: {error}</div>
     </div>
-  );
-
-  if (phase === 'cooldown') return (
-    <CooldownScreen
-      remainingSeconds={sessionData.remainingSeconds}
-      onComplete={() => navigate(`/subject/${subjectId}/topic/${topicId}/subtopic/${subtopicId}`, {
-        state: { subject, topic, subtopic }
-      })}
-    />
   );
 
   if (phase === 'results') {

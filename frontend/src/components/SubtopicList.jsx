@@ -3,6 +3,7 @@ import { useNavigate, useParams, useLocation } from 'react-router-dom';
 import { api } from '../services/api';
 import BackButton from './BackButton';
 import ProficiencyBadge from './ProficiencyBadge';
+import CompletionBar from './CompletionBar';
 
 export default function SubtopicList() {
   const { subjectId, topicId } = useParams();
@@ -72,6 +73,7 @@ export default function SubtopicList() {
               <ProficiencyBadge level={progress[sub.id]?.level || 'beginner'} />
             </div>
             <p>{sub.description}</p>
+            <CompletionBar completion={progress[sub.id]?.completion ?? 0} />
           </div>
         ))}
       </div>

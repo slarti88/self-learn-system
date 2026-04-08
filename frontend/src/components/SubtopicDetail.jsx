@@ -11,23 +11,16 @@ export default function SubtopicDetail() {
   const { subject, topic, subtopic } = location.state || {};
 
   const [progress, setProgress] = useState(null);
-  const [session, setSession] = useState(null);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    Promise.all([api.getProgress(subjectId, subtopicId), api.getSession()])
-      .then(([prog, sess]) => {
-        setProgress(prog);
-        setSession(sess);
-      })
+    api.getProgress(subjectId, subtopicId)
+      .then(setProgress)
       .catch(console.error)
       .finally(() => setLoading(false));
   }, [subjectId, subtopicId]);
 
   if (loading) return <div className="loading"><div className="spinner" /><p>Loading...</p></div>;
-
-  const cooldownMins = session?.active ? Math.floor(session.remainingSeconds / 60) : 0;
-  const cooldownSecs = session?.active ? session.remainingSeconds % 60 : 0;
 
   return (
     <div className="screen">
@@ -67,23 +60,14 @@ export default function SubtopicDetail() {
         >
           Read One-Pager
         </button>
-
-        <div className="quiz-btn-wrapper">
-          <button
-            className={`btn ${session?.active ? 'btn-disabled' : 'btn-secondary'}`}
-            disabled={session?.active}
-            onClick={() => navigate(`/subject/${subjectId}/topic/${topicId}/subtopic/${subtopicId}/quiz`, {
-              state: { subject, topic, subtopic }
-            })}
-          >
-            Start Quiz
-          </button>
-          {session?.active && (
-            <p className="cooldown-hint">
-              Available in {cooldownMins}m {String(cooldownSecs).padStart(2, '0')}s
-            </p>
-          )}
-        </div>
+        <button
+          className="btn btn-secondary"
+          onClick={() => navigate(`/subject/${subjectId}/topic/${topicId}/subtopic/${subtopicId}/quiz`, {
+            state: { subject, topic, subtopic }
+          })}
+        >
+          Start Quiz
+        </button>
       </div>
     </div>
   );

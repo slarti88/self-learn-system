@@ -28,8 +28,8 @@ export const api = {
   getSubtopics: (subjectId, topicId) => get(`/subjects/${subjectId}/topics/${topicId}/subtopics`),
   getContent: (subjectId, topicId, subtopicId) => get(`/subjects/${subjectId}/subtopics/${topicId}/${subtopicId}/content`),
   getQuestions: (subjectId, topicId, subtopicId) => get(`/subjects/${subjectId}/subtopics/${topicId}/${subtopicId}/questions`),
+  getTopicCompletion: (subjectId, topicId) => get(`/subjects/${subjectId}/topics/${topicId}/completion`),
+  getSubjectCompletion: (subjectId) => get(`/subjects/${subjectId}/completion`),
   getProgress: (subjectId, subtopicId) => get(`/subjects/${subjectId}/progress/${subtopicId}`),
   submitProgress: (subjectId, subtopicId, correct, wrong) => post(`/subjects/${subjectId}/progress/${subtopicId}`, { correct, wrong }),
-  getSession: () => get('/session'),
-  startSession: () => post('/session/start', {})
 };
