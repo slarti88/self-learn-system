@@ -22,13 +22,19 @@ export default function SubtopicDetail() {
 
   if (loading) return <div className="loading"><div className="spinner" /><p>Loading...</p></div>;
 
+  const isManual = subtopic?.type === 'manual';
+  const embeddingsReady = subtopic?.embeddingsReady ?? true;
+
   return (
     <div className="screen">
       <BackButton />
 
       <div className="detail-header">
         <div className="detail-title-block">
-          <h2>{subtopic?.name || subtopicId}</h2>
+          <h2>
+            {subtopic?.name || subtopicId}
+            {isManual && <span className="badge-pdf" style={{ marginLeft: '0.5rem' }}>PDF</span>}
+          </h2>
           <p className="screen-subtitle">{subtopic?.description}</p>
         </div>
         {progress && <ProficiencyBadge level={progress.level} />}
@@ -52,22 +58,38 @@ export default function SubtopicDetail() {
       )}
 
       <div className="action-buttons">
-        <button
-          className="btn btn-primary"
-          onClick={() => navigate(`/subject/${subjectId}/topic/${topicId}/subtopic/${subtopicId}/content`, {
-            state: { subject, topic, subtopic }
-          })}
-        >
-          Read One-Pager
-        </button>
-        <button
-          className="btn btn-secondary"
-          onClick={() => navigate(`/subject/${subjectId}/topic/${topicId}/subtopic/${subtopicId}/quiz`, {
-            state: { subject, topic, subtopic }
-          })}
-        >
-          Start Quiz
-        </button>
+        {isManual ? (
+          <button
+            className="btn btn-primary"
+            onClick={() => window.open(api.getPdfUrl(subjectId, topicId, subtopicId), '_blank')}
+          >
+            View PDF
+          </button>
+        ) : (
+          <button
+            className="btn btn-primary"
+            onClick={() => navigate(`/subject/${subjectId}/topic/${topicId}/subtopic/${subtopicId}/content`, {
+              state: { subject, topic, subtopic }
+            })}
+          >
+            Read One-Pager
+          </button>
+        )}
+
+        {isManual && !embeddingsReady ? (
+          <button className="btn btn-disabled" disabled>
+            Indexing in progress...
+          </button>
+        ) : (
+          <button
+            className="btn btn-secondary"
+            onClick={() => navigate(`/subject/${subjectId}/topic/${topicId}/subtopic/${subtopicId}/quiz`, {
+              state: { subject, topic, subtopic }
+            })}
+          >
+            Start Quiz
+          </button>
+        )}
       </div>
     </div>
   );

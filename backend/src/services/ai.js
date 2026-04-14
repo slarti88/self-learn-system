@@ -87,9 +87,17 @@ Use markdown formatting. Keep it under 600 words.`;
   return chat(system, user);
 }
 
-async function generateQuestions(topicName, subtopicName, count = 5, subjectName) {
+async function generateQuestions(topicName, subtopicName, count = 5, subjectName, ragChunks = null) {
   const system = `You are an expert ${subjectName} educator. Return only valid JSON arrays, no markdown.`;
-  const user = `Generate ${count} multiple choice quiz questions about "${subtopicName}" (part of ${topicName} in ${subjectName}).
+
+  let user;
+  if (ragChunks && ragChunks.length > 0) {
+    const excerpts = ragChunks.join('\n---\n');
+    user = `Based on the following excerpts from the study material:
+
+${excerpts}
+
+Generate ${count} multiple choice quiz questions that test understanding of the important facts, definitions, and concepts present in the material above.
 
 Return a JSON array with this exact structure:
 [
@@ -106,6 +114,25 @@ Rules:
 - Each question must have exactly 4 options prefixed with A. B. C. D.
 - Vary difficulty from easy to challenging
 - Return only the JSON array, no other text.`;
+  } else {
+    user = `Generate ${count} multiple choice quiz questions about "${subtopicName}" (part of ${topicName} in ${subjectName}).
+
+Return a JSON array with this exact structure:
+[
+  {
+    "question": "Question text here?",
+    "options": ["A. Option one", "B. Option two", "C. Option three", "D. Option four"],
+    "correctIndex": 0,
+    "explanation": "Brief explanation of why the correct answer is right."
+  }
+]
+
+Rules:
+- correctIndex is 0-based (0=A, 1=B, 2=C, 3=D)
+- Each question must have exactly 4 options prefixed with A. B. C. D.
+- Vary difficulty from easy to challenging
+- Return only the JSON array, no other text.`;
+  }
 
   const raw = await chat(system, user);
   return JSON.parse(stripCodeBlock(raw));

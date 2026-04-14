@@ -394,3 +394,121 @@ body {
   padding: 1rem 1.25rem;
   margin-top: 1rem;
 }
+
+/* ── Manual Subtopic Card ─────────────────────────────────── */
+.card-manual {
+  border-left: 4px solid #6366f1;
+  position: relative;
+}
+
+.badge-pdf {
+  display: inline-block;
+  background: #6366f1;
+  color: white;
+  font-size: 0.65rem;
+  font-weight: 700;
+  padding: 0.15rem 0.45rem;
+  border-radius: 4px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  white-space: nowrap;
+}
+
+.indexing-note {
+  font-size: 0.78rem;
+  color: #f59e0b;
+  font-style: italic;
+  margin-top: 0.3rem;
+}
+
+.btn-delete-subtopic {
+  position: absolute;
+  bottom: 0.75rem;
+  right: 0.75rem;
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-size: 1rem;
+  opacity: 0.4;
+  transition: opacity 0.15s;
+  padding: 0.2rem;
+}
+.btn-delete-subtopic:hover { opacity: 1; }
+
+/* ── Add Subtopic Button ──────────────────────────────────── */
+.btn-add-subtopic {
+  background: #f1f5f9;
+  border: 2px dashed #cbd5e1;
+  color: #475569;
+  font-size: 0.9rem;
+  font-weight: 600;
+  padding: 0.6rem 1.4rem;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: border-color 0.15s, color 0.15s;
+}
+.btn-add-subtopic:hover { border-color: #6366f1; color: #6366f1; }
+
+/* ── Manual Subtopic Form ─────────────────────────────────── */
+.manual-subtopic-form {
+  background: white;
+  border-radius: 12px;
+  padding: 1.5rem;
+  box-shadow: 0 1px 4px rgba(0,0,0,0.08);
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  max-width: 500px;
+}
+
+.manual-subtopic-form h3 {
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: #1e293b;
+}
+
+.manual-subtopic-form label {
+  display: flex;
+  flex-direction: column;
+  gap: 0.3rem;
+  font-size: 0.88rem;
+  font-weight: 600;
+  color: #475569;
+}
+
+.manual-subtopic-form input[type="text"],
+.manual-subtopic-form textarea {
+  border: 1.5px solid #e2e8f0;
+  border-radius: 6px;
+  padding: 0.55rem 0.75rem;
+  font-size: 0.9rem;
+  color: #1e293b;
+  resize: vertical;
+  outline: none;
+  transition: border-color 0.15s;
+}
+.manual-subtopic-form input:focus,
+.manual-subtopic-form textarea:focus { border-color: #6366f1; }
+
+.form-error {
+  font-size: 0.85rem;
+  color: #ef4444;
+}
+
+.form-actions {
+  display: flex;
+  gap: 0.75rem;
+}
+
+.btn-cancel {
+  background: #f1f5f9;
+  color: #475569;
+  border: none;
+  padding: 0.7rem 1.4rem;
+  border-radius: 8px;
+  font-size: 0.9rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.15s;
+}
+.btn-cancel:hover { background: #e2e8f0; }

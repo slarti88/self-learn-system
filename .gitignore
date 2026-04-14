@@ -11,6 +11,7 @@ deploy.sh
 backend/config/config.json
 
 # Generated runtime data
+backend/data/
 backend/data/content/
 backend/data/subtopics/
 backend/data/progress/
